@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import pool from '../../db/db'
 import albumArtistQueries from './albums_artist.queries'
+import userQueries from '../User/User.queries'
 
 const internalErrorMessage = (response: any) => {
   return response.status(500).json({
@@ -18,13 +19,18 @@ const createAlbum = (req: Request, res: Response, next: NextFunction) => {
             message:"Please provide Title, release Year and genre"
         })
     }
-    pool.query(albumArtistQueries.createAlbumQuery,[title,release_year,genre],(error,result)=>{
+    pool.query(userQueries.loginUserQuery,[user?.email],(error,results)=>{
         if (error){
             return internalErrorMessage(res)
         }
-        res.status(200).json({
-            status:"success",
-            message:"Album successfully created"
+        pool.query(albumArtistQueries.createAlbumQuery,[title,release_year,genre,results.rows[0].id],(error,result)=>{
+            if (error){
+                return internalErrorMessage(res)
+            }
+            res.status(200).json({
+                status:"success",
+                message:"Album successfully created"
+            })
         })
     })
   } catch (error) {
