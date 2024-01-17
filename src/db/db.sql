@@ -1,10 +1,10 @@
 -- user table
 CREATE TABLE users(
 	ID SERIAL PRIMARY KEY,
-	name VARCHAR(255),
-	email VARCHAR(255),
-	pass VARCHAR(255),
-	age int
+	name VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	pass VARCHAR(255) NOT NULL,
+	age int NOT NULL
 );
 
 -- album artist
