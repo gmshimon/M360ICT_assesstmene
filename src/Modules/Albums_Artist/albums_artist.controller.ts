@@ -63,8 +63,28 @@ const getAlbum = (req: Request, res: Response, next: NextFunction) => {
     })
   }
 }
+const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const {id} = req.params
+    pool.query(albumArtistQueries.getAlbumQueryID,[id], (error, results) => {
+      if (error) {
+        return internalErrorMessage(res)
+      }
+      res.status(200).json({
+        status: 'success',
+        data: results.rows
+      })
+    })
+  } catch (error) {
+    res.status(400).json({
+      status: 'Failed',
+      message: error
+    })
+  }
+}
 
 export default {
   createAlbum,
-  getAlbum
+  getAlbum,
+  getAlbumByID
 }
