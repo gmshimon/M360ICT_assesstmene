@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import pool from '../../../db/db'
-import albumArtistQueries from './albums_artist.queries'
+import albumArtistQueries from './albums.queries'
 import userQueries from '../../User/User.queries'
 
 const internalErrorMessage = (response: any) => {
