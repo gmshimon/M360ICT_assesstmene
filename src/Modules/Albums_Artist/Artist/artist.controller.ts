@@ -3,10 +3,10 @@ import pool from '../../../db/db'
 import UserQueries from '../../User/User.queries'
 import artistQueries from './artist.queries'
 
-const internalErrorMessage = (response: any) => {
+const internalErrorMessage = (response: any,error:any) => {
   return response.status(500).json({
     status: 'fail',
-    message: 'Internal Server Error'
+    message: error
   })
 }
 
@@ -21,14 +21,14 @@ const createArtist = (req: Request, res: Response, next: NextFunction) => {
       }
       pool.query(UserQueries.loginUserQuery, [user?.email], (error, results) => {
         if (error) {
-          return internalErrorMessage(res)
+          return internalErrorMessage(res,error)
         }
         pool.query(
             artistQueries.createAlbumQuery,
           [name, results.rows[0].id],
           (error, result) => {
             if (error) {
-              return internalErrorMessage(res)
+              return internalErrorMessage(res,error)
             }
             res.status(200).json({
               status: 'success',
@@ -44,6 +44,26 @@ const createArtist = (req: Request, res: Response, next: NextFunction) => {
       })
     }
   }
+
+  const getArtist = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      pool.query(artistQueries.getArtistQuery, (error, results) => {
+        if (error) {
+          return internalErrorMessage(res,error);
+        }
+        res.status(200).json({
+          status: 'success',
+          data: results.rows
+        })
+      })
+    } catch (error) {
+      res.status(400).json({
+        status: 'Failed',
+        message: error
+      })
+    }
+  }
 export default {
-    createArtist
+    createArtist,
+    getArtist
 }
