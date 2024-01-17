@@ -5,5 +5,6 @@ import UserUtilis from './User.utilis';
 const router = express.Router();
 
 router.post('/register',UserUtilis.passHash,authController.register)
+router.post('/login',authController.login)
 
 export default router
