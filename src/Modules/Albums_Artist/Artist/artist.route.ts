@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.route('/create-artist').post(verifyLoginToken,artistController.createArtist)
 router.route('/get-artist').get(verifyLoginToken,artistController.getArtist)
-router.route('/:id').get(verifyLoginToken,artistController.getAlbumByID)
+router.route('/get-artist/:id').get(verifyLoginToken,artistController.getAlbumByID)
+router.route('/delete-artist/:id').delete(verifyLoginToken,artistController.deleteArtistID)
 
 export default router
