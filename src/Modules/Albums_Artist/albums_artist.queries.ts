@@ -4,8 +4,11 @@ const getAlbumQuery = "SELECT albums.id AS album_id,albums.title AS album_title,
 
 const getAlbumQueryID = "SELECT albums.id AS album_id,albums.title AS album_title,albums.release_year,albums.genre,jsonb_build_object('id',users.id,'name',users.name,'email',users.email) AS created_by FROM albums JOIN users ON albums.created_by = users.id WHERE albums.id = $1"
 
+const deleteAlbum = "DELETE FROM albums WHERE id = $1"
+
 export default {
     createAlbumQuery,
     getAlbumQuery,
-    getAlbumQueryID
+    getAlbumQueryID,
+    deleteAlbum
 }

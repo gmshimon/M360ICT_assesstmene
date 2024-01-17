@@ -65,8 +65,8 @@ const getAlbum = (req: Request, res: Response, next: NextFunction) => {
 }
 const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const {id} = req.params
-    pool.query(albumArtistQueries.getAlbumQueryID,[id], (error, results) => {
+    const { id } = req.params
+    pool.query(albumArtistQueries.getAlbumQueryID, [id], (error, results) => {
       if (error) {
         return internalErrorMessage(res)
       }
@@ -83,8 +83,40 @@ const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const deleteAlbumID = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params
+    pool.query(albumArtistQueries.getAlbumQueryID, [id], (error, results) => {
+      if (error) {
+        return internalErrorMessage(res)
+      }
+      if (results.rows.length <= 0) {
+        return res.status(404).json({
+          status: 'Failed',
+          message: 'No data found'
+        })
+      }
+      pool.query(albumArtistQueries.deleteAlbum, [id], (error, results) => {
+        if (error) {
+          return internalErrorMessage(res)
+        }
+        res.status(200).json({
+          status: 'success',
+          message: 'successfully deleted'
+        })
+      })
+    })
+  } catch (error) {
+    res.status(400).json({
+      status: 'Failed',
+      message: error
+    })
+  }
+}
+
 export default {
   createAlbum,
   getAlbum,
-  getAlbumByID
+  getAlbumByID,
+  deleteAlbumID
 }
