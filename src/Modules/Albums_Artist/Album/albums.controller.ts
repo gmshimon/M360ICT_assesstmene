@@ -70,9 +70,15 @@ const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
       if (error) {
         return internalErrorMessage(res)
       }
+      if (results.rows.length <= 0) {
+        return res.status(404).json({
+          status: 'Failed',
+          message: 'No data found'
+        })
+      }
       res.status(200).json({
         status: 'success',
-        data: results.rows
+        data: results.rows[0]
       })
     })
   } catch (error) {
