@@ -120,9 +120,42 @@ const deleteArtistID = (req: Request, res: Response, next: NextFunction) => {
       })
     }
   }
+
+  const updateArtistID = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params
+      const {name} = req.body
+      pool.query(artistQueries.getArtistQueryID, [id], (error, results) => {
+        if (error) {
+          return internalErrorMessage(res,error)
+        }
+        if (results.rows.length <= 0) {
+          return res.status(404).json({
+            status: 'Failed',
+            message: 'No data found'
+          })
+        }
+        pool.query(artistQueries.updateArtistQueryID, [name,id], (error) => {
+          if (error) {
+            return internalErrorMessage(res,error)
+          }
+          res.status(200).json({
+            status: 'success',
+            message: 'Updated deleted'
+          })
+        })
+      })
+    } catch (error) {
+      res.status(400).json({
+        status: 'Failed',
+        message: error
+      })
+    }
+  }
 export default {
   createArtist,
   getArtist,
   getAlbumByID,
-  deleteArtistID
+  deleteArtistID,
+  updateArtistID
 }

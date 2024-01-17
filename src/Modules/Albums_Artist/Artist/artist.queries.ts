@@ -6,9 +6,12 @@ const getArtistQueryID = "SELECT artists.id as id,artists.name as name,jsonb_bui
 
 const deleteArtistQuery = "DELETE FROM artists WHERE id = $1"
 
+const updateArtistQueryID = "UPDATE artists SET name = $1 WHERE id = $2"
+
 export default {
     createAlbumQuery,
     getArtistQuery,
     getArtistQueryID,
-    deleteArtistQuery
+    deleteArtistQuery,
+    updateArtistQueryID
 }

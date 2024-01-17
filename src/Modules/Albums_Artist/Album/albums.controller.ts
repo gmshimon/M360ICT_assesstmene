@@ -133,7 +133,7 @@ const updateAlbumID = (req: Request, res: Response, next: NextFunction) => {
           message: 'No data found'
         })
       }
-      pool.query(albumArtistQueries.updateAlbumID, [title, release_year, genre,id], (error, results) => {
+      pool.query(albumArtistQueries.updateAlbumQueryID, [title, release_year, genre,id], (error, results) => {
         if (error) {
           return internalErrorMessage(res)
         }
