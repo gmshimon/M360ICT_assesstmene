@@ -17,11 +17,13 @@ const verifyLoginToken = async(req:Request,res:Response,next:NextFunction) =>{
         const verifyAsync = promisify<string, string>(jwt.verify.bind(jwt));
         const decoded = await verifyAsync(token, process.env.TOKEN_SECRET as string);
         
-        req.body = decoded;
-        req.body = decoded
+        req.body.user = decoded;
         next()
     } catch (error) {
-        
+        return res.status(403).json({
+            status: 'Failed',
+            message: 'Invalid Token'
+          })
     }
 }
 
