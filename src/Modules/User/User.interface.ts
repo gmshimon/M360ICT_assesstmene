@@ -4,5 +4,4 @@ export interface IUser {
     email:string,
     pass:string,
     age?:number,
-    token?:string,
 }
