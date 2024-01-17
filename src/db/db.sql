@@ -12,11 +12,9 @@ CREATE TABLE albums (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   release_year int NOT NULL,
-  genre VARCHAR(255) NOT NULL
+  genre VARCHAR(255) NOT NULL,
+  created_by int REFERENCES users(id) NOT NULL
 );
--- Add the created_by field to the albums table
-ALTER TABLE albums
-ADD COLUMN created_by INT REFERENCES users(id) NOT NULL;
 
 -- artists table
 CREATE TABLE artists (
