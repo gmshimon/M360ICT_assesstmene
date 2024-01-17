@@ -33,7 +33,7 @@ const register = (req: Request, res: Response, next: NextFunction) => {
             return internalErrorMessage(res)
           }
           res.status(200).json({
-            success: 'success',
+            status: 'success',
             message: 'Successfully registered'
           })
         }
