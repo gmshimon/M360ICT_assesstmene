@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import pool from '../../db/db'
+import pool from '../../../db/db'
 import albumArtistQueries from './albums_artist.queries'
-import userQueries from '../User/User.queries'
+import userQueries from '../../User/User.queries'
 
 const internalErrorMessage = (response: any) => {
   return response.status(500).json({
