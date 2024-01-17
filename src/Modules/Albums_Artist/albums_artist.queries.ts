@@ -6,9 +6,12 @@ const getAlbumQueryID = "SELECT albums.id AS album_id,albums.title AS album_titl
 
 const deleteAlbum = "DELETE FROM albums WHERE id = $1"
 
+const updateAlbumID = "UPDATE albums SET title = $1 , release_year = $2 , genre = $3 WHERE id = $4"
+
 export default {
     createAlbumQuery,
     getAlbumQuery,
     getAlbumQueryID,
-    deleteAlbum
+    deleteAlbum,
+    updateAlbumID
 }
