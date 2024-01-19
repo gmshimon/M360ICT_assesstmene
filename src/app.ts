@@ -12,7 +12,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json());
 
-console.log(process.env.TOKEN_SECRET)
 
 import UserRouter from './Modules/User/User.route'
 import AlbumRouter from './Modules/Albums_Artist/Album/albums.route'
