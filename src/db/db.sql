@@ -34,7 +34,8 @@ CREATE TABLE songs (
 
 -- album_artist (many-to-many) table
 CREATE TABLE album_artist (
+  id SERIAL 
   album_id INTEGER REFERENCES albums(id) NOT NULL,
   artist_id INTEGER REFERENCES artists(id) NOT NULL,
-  PRIMARY KEY (album_id, artist_id)
+  PRIMARY KEY (id,album_id, artist_id)
 );
