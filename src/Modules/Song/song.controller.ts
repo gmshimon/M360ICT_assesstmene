@@ -63,7 +63,8 @@ const createSong = (req: Request, res: Response, next: NextFunction) => {
 const getSongs = (req: Request, res: Response, next: NextFunction) => {
   try {
     const { album_id } = req.query
-    console.log(`${songQueries.getSongQuery} ${album_id && ` WHERE songs.album_id = ${album_id}`}`)
+    // console.log(album_id)
+    // console.log(`${songQueries.getSongQuery} ${album_id ? ` WHERE songs.album_id = ${album_id}`:''}`)
     pool.query(`${songQueries.getSongQuery} ${album_id ? ` WHERE songs.album_id = ${album_id}`:''}` , (error, results) => {
       if (error) {
         return internalErrorMessage(res, error)
@@ -81,7 +82,34 @@ const getSongs = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id } = req.params
+      pool.query(songQueries.getSongQueryID, [id], (error, results) => {
+        if (error) {
+          return internalErrorMessage(res, error)
+        }
+        if (results.rows.length <= 0) {
+          return res.status(404).json({
+            status: 'Failed',
+            message: 'No data found'
+          })
+        }
+        res.status(200).json({
+          status: 'success',
+          data: results.rows[0]
+        })
+      })
+    } catch (error) {
+      res.status(400).json({
+        status: 'Failed',
+        message: error
+      })
+    }
+  }
+
 export default {
   createSong,
-  getSongs
+  getSongs,
+  getAlbumByID
 }
