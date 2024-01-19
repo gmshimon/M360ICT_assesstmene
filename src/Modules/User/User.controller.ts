@@ -3,6 +3,8 @@ import pool from '../../db/db'
 import userQueries from './User.queries'
 import bcrypt from 'bcrypt'
 import generateToken from '../../Middleware/generateToken'
+import { validationResult } from 'express-validator'
+
 
 const internalErrorMessage = (response: any) => {
   return response.status(500).json({
@@ -50,7 +52,12 @@ const register = (req: Request, res: Response, next: NextFunction) => {
 const login = (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorMessages = errors.array().map(error => error.msg);
+      return res.status(400).json({ errors: errorMessages });
+    }
+  
     if (!email || !password) {
       return res.status(403).json({
         status: 'Fail',

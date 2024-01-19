@@ -24,3 +24,4 @@ Then
 npm run start
 ```
 ### NOTE: Please follow the above step to start the app and backend server
+### NOTE: I only provided the express validator for user login and registration route 
