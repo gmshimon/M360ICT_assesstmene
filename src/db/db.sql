@@ -1,3 +1,6 @@
+-- create the database
+CREATE DATABASE music_db
+
 -- user table
 CREATE TABLE users(
 	ID SERIAL PRIMARY KEY,
