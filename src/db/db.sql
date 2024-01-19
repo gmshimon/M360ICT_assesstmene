@@ -28,6 +28,7 @@ CREATE TABLE songs (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   duration INTEGER NOT NULL,
+  created_by int REFERENCES users(id) NOT NULL,
   album_id INTEGER REFERENCES albums(id) NOT NULL
 );
 
