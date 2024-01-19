@@ -41,7 +41,26 @@ const createLibrary = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+const getAlbumArtist = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    pool.query(album_artistQueries.getAlbumArtistQuery, (error, result) => {
+      if (error) {
+        return internalErrorMessage(res, error)
+      }
+      res.status(200).json({
+        status: 'success',
+        message: result.rows
+      })
+    })
+  } catch (error) {
+    res.status(400).json({
+      status: 'Failed',
+      message: error
+    })
+  }
+}
 
 export default {
-    createLibrary
+  createLibrary,
+  getAlbumArtist
 }

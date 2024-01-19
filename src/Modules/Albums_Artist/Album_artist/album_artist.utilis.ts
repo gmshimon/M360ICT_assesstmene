@@ -64,7 +64,7 @@ const checkAlbum = (req: Request, res: Response, next: NextFunction) => {
 const checkArtist = (req: Request, res: Response, next: NextFunction) => {
     try {
       const { album_id, artist_id } = req.body
-      pool.query(artistQueries.getArtistQueryID, [album_id], (error, result) => {
+      pool.query(artistQueries.getArtistQueryID, [artist_id], (error, result) => {
         if (error) {
           return internalErrorMessage(res, error)
         }

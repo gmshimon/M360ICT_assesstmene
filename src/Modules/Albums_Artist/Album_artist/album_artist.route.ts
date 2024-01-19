@@ -6,4 +6,6 @@ const router = express.Router();
 
 router.route('/create').post(verifyLoginToken,album_artistUtilis.checkAlbumArtist,album_artistUtilis.checkAlbum,album_artistUtilis.checkArtist, album_artistController.createLibrary)
 
+router.route('/').get(verifyLoginToken,album_artistController.getAlbumArtist)
+
 export default router
