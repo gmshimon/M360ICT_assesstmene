@@ -65,13 +65,44 @@ const getSongs = (req: Request, res: Response, next: NextFunction) => {
     const { album_id } = req.query
     // console.log(album_id)
     // console.log(`${songQueries.getSongQuery} ${album_id ? ` WHERE songs.album_id = ${album_id}`:''}`)
-    pool.query(`${songQueries.getSongQuery} ${album_id ? ` WHERE songs.album_id = ${album_id}`:''}` , (error, results) => {
+    pool.query(
+      `${songQueries.getSongQuery} ${
+        album_id ? ` WHERE songs.album_id = ${album_id}` : ''
+      }`,
+      (error, results) => {
+        if (error) {
+          return internalErrorMessage(res, error)
+        }
+        res.status(200).json({
+          status: 'success',
+          data: results.rows
+        })
+      }
+    )
+  } catch (error) {
+    res.status(400).json({
+      status: 'Failed',
+      message: error
+    })
+  }
+}
+
+const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params
+    pool.query(songQueries.getSongQueryID, [id], (error, results) => {
       if (error) {
         return internalErrorMessage(res, error)
       }
+      if (results.rows.length <= 0) {
+        return res.status(404).json({
+          status: 'Failed',
+          message: 'No data found'
+        })
+      }
       res.status(200).json({
         status: 'success',
-        data: results.rows
+        data: results.rows[0]
       })
     })
   } catch (error) {
@@ -82,12 +113,12 @@ const getSongs = (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
+const deleteArtistID = (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params
       pool.query(songQueries.getSongQueryID, [id], (error, results) => {
         if (error) {
-          return internalErrorMessage(res, error)
+          return internalErrorMessage(res,error)
         }
         if (results.rows.length <= 0) {
           return res.status(404).json({
@@ -95,9 +126,14 @@ const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
             message: 'No data found'
           })
         }
-        res.status(200).json({
-          status: 'success',
-          data: results.rows[0]
+        pool.query(songQueries.deleteSongsQuery, [id], (error) => {
+          if (error) {
+            return internalErrorMessage(res,error)
+          }
+          res.status(200).json({
+            status: 'success',
+            message: 'successfully deleted'
+          })
         })
       })
     } catch (error) {
@@ -108,8 +144,10 @@ const getAlbumByID = (req: Request, res: Response, next: NextFunction) => {
     }
   }
 
+
 export default {
   createSong,
   getSongs,
-  getAlbumByID
+  getAlbumByID,
+  deleteArtistID
 }
